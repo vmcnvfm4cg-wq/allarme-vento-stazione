@@ -37,7 +37,7 @@ print("DATI VENTO:", obs["metric"])
 print("RAFFICA API:", obs["metric"].get("windGust"))
 raffica_kmh = obs["metric"].get("windGust")
 
-if raffica_ms is None:
+if raffica_kmh is None:
     raise Exception("Raffica vento non disponibile")
 
 
