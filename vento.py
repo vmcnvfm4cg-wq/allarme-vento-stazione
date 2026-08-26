@@ -33,7 +33,8 @@ response.raise_for_status()
 
 data = response.json()
 obs = data["observations"][0]
-
+print("DATI VENTO:", obs["metric"])
+print("RAFFICA API:", obs["metric"].get("windGust"))
 raffica_kmh = obs["metric"].get("windGust")
 
 if raffica_ms is None:
