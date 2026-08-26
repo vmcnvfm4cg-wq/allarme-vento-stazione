@@ -5,6 +5,9 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   controllo:
     runs-on: ubuntu-latest
@@ -26,3 +29,11 @@ jobs:
           WU_API_KEY: ${{ secrets.WU_API_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         run: python vento.py
+
+      - name: Salva stato
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stato.json
+          git diff --cached --quiet || git commit -m "Aggiorna stato allarme vento"
+          git push
