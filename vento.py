@@ -2,19 +2,11 @@ import os
 import requests
 
 STATION_ID = "IIMPER69"
+CHAT_ID = "8763679403"
 SOGLIA = 20  # km/h
 
 WU_API_KEY = os.environ["WU_API_KEY"]
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
-
-# Recupera automaticamente il Chat ID dall'ultimo messaggio
-updates_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/getUpdates"
-updates = requests.get(updates_url, timeout=20).json()
-
-if not updates.get("ok") or not updates.get("result"):
-    raise Exception("Prima invia /start al bot Telegram")
-
-chat_id = updates["result"][-1]["message"]["chat"]["id"]
 
 # Legge la stazione VEVOR da Weather Underground
 url = (
@@ -42,20 +34,28 @@ raffica_kmh = raffica_ms * 3.6
 print(f"Raffica rilevata: {raffica_kmh:.1f} km/h")
 
 if raffica_kmh >= SOGLIA:
+
     messaggio = (
         "🌬️ ALLERTA VENTO VEVOR\n\n"
         f"Raffica: {raffica_kmh:.1f} km/h\n"
         f"Soglia: {SOGLIA} km/h"
     )
 
-    send_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    send_url = (
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    )
 
-    requests.post(
+    telegram_response = requests.post(
         send_url,
         json={
-            "chat_id": chat_id,
+            "chat_id": CHAT_ID,
             "text": messaggio
         },
         timeout=20
     )
-  
+
+    telegram_response.raise_for_status()
+
+    print("Notifica Telegram inviata.")
+else:
+    print("Vento sotto la soglia.")
