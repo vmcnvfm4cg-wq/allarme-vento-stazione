@@ -34,12 +34,12 @@ response.raise_for_status()
 data = response.json()
 obs = data["observations"][0]
 
-raffica_ms = obs["metric"].get("windGust")
+raffica_kmh = obs["metric"].get("windGust")
 
 if raffica_ms is None:
     raise Exception("Raffica vento non disponibile")
 
-raffica_kmh = raffica_ms * 3.6
+
 
 print(f"Raffica rilevata: {raffica_kmh:.1f} km/h")
 
