@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
@@ -16,7 +18,7 @@ data = response.json()
 
 if data.get("ok"):
 
-    print("✅ TOKEN TELEGRAM VALIDO")
+    print("TOKEN TELEGRAM VALIDO")
 
     print("Nome bot:", data["result"].get("first_name"))
 
@@ -24,4 +26,4 @@ if data.get("ok"):
 
 else:
 
-    print("❌ TOKEN TELEGRAM NON VALIDO")
+    print("TOKEN TELEGRAM NON VALIDO")
