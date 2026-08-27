@@ -13,3 +13,23 @@ print("RISPOSTA TELEGRAM:")
 print(response.text)
 
 response.raise_for_status()
+
+data = response.json()
+
+if data["ok"] and data["result"]:
+
+    for update in data["result"]:
+
+        message = update.get("message", {})
+
+        chat = message.get("chat", {})
+
+        print("CHAT ID:", chat.get("id"))
+
+        print("NOME:", chat.get("first_name"))
+
+        print("MESSAGGIO:", message.get("text"))
+
+else:
+
+    print("NESSUN MESSAGGIO RICEVUTO.")
