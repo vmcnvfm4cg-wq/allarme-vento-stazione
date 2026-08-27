@@ -1,39 +1,71 @@
-name: Controllo vento VEVOR
+name: Allarme vento VEVOR
 
 on:
+
   schedule:
+
     - cron: "*/5 * * * *"
+
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  controllo:
+
+  vento:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Scarica repository
+
         uses: actions/checkout@v4
 
-      - name: Installa Python
+      - name: Configura Python
+
         uses: actions/setup-python@v5
+
         with:
+
           python-version: "3.x"
 
       - name: Installa requests
-        run: pip install requests
 
-      - name: Controlla vento
+        run: |
+
+          pip install requests
+
+      - name: Ripristina stato
+
+        uses: actions/cache/restore@v4
+
+        with:
+
+          path: stato.json
+
+          key: vento-stato-${{ github.run_id }}
+
+          restore-keys: |
+
+            vento-stato-
+
+      - name: Esegui vento.py
+
         env:
+
           WU_API_KEY: ${{ secrets.WU_API_KEY }}
+
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        run: python vento.py
+
+        run: |
+
+          python vento.py
 
       - name: Salva stato
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add stato.json
-          git diff --cached --quiet || git commit -m "Aggiorna stato allarme vento"
-          git push
+
+        uses: actions/cache/save@v4
+
+        with:
+
+          path: stato.json
+
+          key: vento-stato-${{ github.run_id }}
