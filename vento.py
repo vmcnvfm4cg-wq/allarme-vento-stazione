@@ -4,11 +4,11 @@ import requests
 
 TOKEN = os.environ["TELEGRAM_TOKEN"]
 
-url = f"https://api.telegram.org/bot{TOKEN}/getWebhookInfo"
+url = f"https://api.telegram.org/bot{TOKEN}/getMe"
 
 response = requests.get(url, timeout=20)
 
-print("WEBHOOK TELEGRAM:")
+print("BOT COLLEGATO AL TOKEN:")
 
 print(response.text)
 
