@@ -4,9 +4,19 @@ import requests
 
 TOKEN = os.environ["TELEGRAM_TOKEN"]
 
-url = f"https://api.telegram.org/bot{TOKEN}/getUpdates"
+CHAT_ID = "8763679403"
 
-response = requests.get(url, timeout=20)
+url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+
+data = {
+
+    "chat_id": CHAT_ID,
+
+    "text": "🌬️ TEST ALLARME VENTO\n\nIl bot Telegram funziona correttamente!"
+
+}
+
+response = requests.post(url, data=data, timeout=20)
 
 print("RISPOSTA TELEGRAM:")
 
