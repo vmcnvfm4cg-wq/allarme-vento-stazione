@@ -68,7 +68,9 @@ if raffica_kmh >= SOGLIA:
             timeout=20
         )
 
-        telegram_response.raise_for_status()
+        print("RISPOSTA TELEGRAM:", telegram_response.text)
+
+telegram_response.raise_for_status()
 
         print("🔔 Notifica Telegram inviata.")
 
