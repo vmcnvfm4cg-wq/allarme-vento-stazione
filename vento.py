@@ -8,7 +8,7 @@ STATION_ID = "IIMPER69"
 
 CHAT_ID = "8763679403"
 
-SOGLIA = 15 # km/h
+SOGLIA = 18 # km/h
 
 WU_API_KEY = os.environ["WU_API_KEY"]
 
